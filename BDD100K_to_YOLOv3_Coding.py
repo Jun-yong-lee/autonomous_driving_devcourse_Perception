@@ -10,11 +10,11 @@ print(cv2.__version__)
 window_name = "BDD100K Validation Image"
 
 val_json_filepath = "labels\\det_20\\det_val.json"
-image_filepath_root = "bdd100k\\images\\100k\\val"
+image_filepath_root = "images\\100k\\val"
 
-visualization = False
+visualization = True
 
-YOLO_OUTPUT_DIRECTORY_PREFIX = "yolo_labels\\val"
+YOLO_OUTPUT_DIRECTORY_PREFIX = "yolo_labels\\val\\"
 
 CLASS_ID_MAPPING_TABLE = {
     "pedestrian": 0,
@@ -37,48 +37,58 @@ def get_image_file(image_filename: str, visualization: bool):
 with open(val_json_filepath, "r", encoding="UTF-8") as json_file:
     val_labels = json.load(json_file)
 
-for val_label in val_labels:
+# file_list = os.listdir("C:\\study\\autonomous_driving_devcourse_Perception\\autonomous_driving_devcourse_Perception\\images\\100k\\val")
+file_list = os.listdir("images\\100k\\val")
+
+file_list_jpg = [file for file in file_list if file.endswith(".jpg")]
+print(file_list_jpg)
+    
+for index, val_label in enumerate(val_labels):
     image_filename = val_label["name"]
-    text_filename = image_filename.split(".")[0] + ".txt"
 
-    image = get_image_file(image_filename, visualization=visualization)
-    img_height, img_width, channel = np.shape(image)
-    labels = val_label["labels"]
+    if image_filename in file_list_jpg:
+        text_filename = image_filename.split(".")[0] + ".txt"
+        print(index, text_filename)
 
-    with open(YOLO_OUTPUT_DIRECTORY_PREFIX + text_filename, "w+") as file:
-        for label in labels:
-            if label["category"] in CLASS_ID_MAPPING_TABLE.keys():
-                class_id = CLASS_ID_MAPPING_TABLE[label["category"]]
-            else:
-                continue
-            box2d = label["box2d"]
+        image = get_image_file(image_filename, visualization=visualization)
+        img_height, img_width, channel = np.shape(image)
+        labels = val_label["labels"]
 
-            left_box2d = box2d["x1"]
-            right_box2d = box2d["x2"]
-            top_box2d = box2d["y1"]
-            bottom_box2d = box2d["y2"]
+        with open(YOLO_OUTPUT_DIRECTORY_PREFIX + text_filename, "w+") as file:
+            for label in labels:
+                if label["category"] in CLASS_ID_MAPPING_TABLE.keys():
+                    class_id = CLASS_ID_MAPPING_TABLE[label["category"]]
+                else:
+                    continue
+                box2d = label["box2d"]
 
-            x = (left_box2d + right_box2d) / 2
-            y = (top_box2d + bottom_box2d) / 2
+                left_box2d = box2d["x1"]
+                right_box2d = box2d["x2"]
+                top_box2d = box2d["y1"]
+                bottom_box2d = box2d["y2"]
 
-            box_width = right_box2d - left_box2d
-            box_height = bottom_box2d - top_box2d
+                x = (left_box2d + right_box2d) / 2
+                y = (top_box2d + bottom_box2d) / 2
 
-            yolo_x = x / img_width
-            yolo_y = y / img_height
+                box_width = right_box2d - left_box2d
+                box_height = bottom_box2d - top_box2d
 
-            yolo_box_width = box_width / img_width
-            yolo_box_height = box_height / img_height
+                yolo_x = x / img_width
+                yolo_y = y / img_height
 
-            file.write(f"{class_id} {yolo_x} {yolo_y} {yolo_box_width} {yolo_box_height}\n")
+                yolo_box_width = box_width / img_width
+                yolo_box_height = box_height / img_height
 
-            if visualization == visualization:
-                cv2.rectangle(image, (int(left_box2d), int(top_box2d)), (int(right_box2d), int(bottom_box2d)), (255, 255, 0), 4)
-                cv2.circle(image, (int(x), int(y)), 3, (0, 0, 255))
+                file.write(f"{class_id} {yolo_x} {yolo_y} {yolo_box_width} {yolo_box_height}\n")
 
-        file.close()
+                if visualization == visualization:
+                    cv2.rectangle(image, (int(left_box2d), int(top_box2d)), (int(right_box2d), int(bottom_box2d)), (255, 255, 0), 4)
+                    cv2.circle(image, (int(x), int(y)), 3, (0, 0, 255))
 
-        if visualization == True:
-            cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
-            cv2.imshow(window_name, image)
-            cv2.waitKey(0)
+            file.close()
+
+            if visualization == True:
+                cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
+                cv2.imshow(window_name, image)
+                cv2.imwrite(YOLO_OUTPUT_DIRECTORY_PREFIX + "results\\" + str(image_filename) + '.jpg', image)
+                cv2.waitKey(0)
