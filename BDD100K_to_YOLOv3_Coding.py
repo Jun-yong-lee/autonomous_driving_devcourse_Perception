@@ -87,5 +87,5 @@ for index, val_label in enumerate(val_labels):
             if visualization == True:
                 cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
                 cv2.imshow(window_name, image)
-                cv2.imwrite(YOLO_OUTPUT_DIRECTORY_PREFIX + "results\\" + str(image_filename) + '.jpg', image)
+                cv2.imwrite(YOLO_OUTPUT_DIRECTORY_PREFIX + "results\\" + str(image_filename), image)
                 cv2.waitKey(0)
