@@ -2,10 +2,8 @@ import glob
 import os
 import json
 import numpy as np
-
 import cv2
 
-print(cv2.__version__)
 
 window_name = "BDD100K Validation Image"
 
@@ -37,7 +35,6 @@ def get_image_file(image_filename: str, visualization: bool):
 with open(val_json_filepath, "r", encoding="UTF-8") as json_file:
     val_labels = json.load(json_file)
 
-# file_list = os.listdir("C:\\study\\autonomous_driving_devcourse_Perception\\autonomous_driving_devcourse_Perception\\images\\100k\\val")
 file_list = os.listdir("images\\100k\\val")
 
 file_list_jpg = [file for file in file_list if file.endswith(".jpg")]
