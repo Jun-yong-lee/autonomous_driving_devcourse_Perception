@@ -9,12 +9,12 @@ print(cv2.__version__)
 
 window_name = "BDD100K Validation Image"
 
-val_json_filepath = "labels/det_20/det_val.json"
-image_filepath_root = "bdd100k/images/100k/val"
+val_json_filepath = "labels\\det_20\\det_val.json"
+image_filepath_root = "bdd100k\\images\\100k\\val"
 
 visualization = False
 
-YOLO_OUTPUT_DIRECTORY_PREFIX = "yolo_labels/val/"
+YOLO_OUTPUT_DIRECTORY_PREFIX = "yolo_labels\\val"
 
 CLASS_ID_MAPPING_TABLE = {
     "pedestrian": 0,
