@@ -2,28 +2,29 @@ import cv2
 import random
 import albumentations as A
 
-def visualization(image):
+def visualization(image, image_name):
     image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
     cv2.imshow("Visualization", image)
+    cv2.imwrite("results/result_" + image_name + ".png", image)
     cv2.waitKey(0)
 
 # OpenCV -> BGR
-image = cv2.imread("image/Lena.png", cv2.IMREAD_ANYCOLOR)
+image = cv2.imread("image/dog.png", cv2.IMREAD_ANYCOLOR)
 image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
-visualization(image)
+visualization(image, "ori")
 
 # Step 1: Basic Transform
 transform = A.HorizontalFlip(p=0.5)
 # random.seed(7)
 augmented_image = transform(image=image)['image']
-visualization(augmented_image)
+visualization(augmented_image, "horizon_flip")
 
 # Step 2: Rotation
 transform = A.ShiftScaleRotate(p=0.5)
 random.seed(7) 
 augmented_image = transform(image=image)['image']
-visualization(augmented_image)
+visualization(augmented_image, "shiftscale_rotate")
 
 # Step 3: Compose
 transform = A.Compose([
@@ -38,6 +39,6 @@ transform = A.Compose([
 ])
 
 random.seed(42)
-for _ in range(10):
+for i in range(10):
     augmented_image = transform(image=image)['image']
-    visualization(augmented_image)
+    visualization(augmented_image, str(i) + "compose")
