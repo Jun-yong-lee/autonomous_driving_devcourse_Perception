@@ -6,7 +6,7 @@ from matplotlib import pyplot as plt
 
 import albumentations as A
 
-BOX_COLOR = (0, 255, 0) # Green
+BOX_COLOR = (255, 0, 0) # Red
 TEXT_COLOR = (255, 255, 255) # White
 
 def visualize_bbox(img, bbox, class_name, color=BOX_COLOR, thickness=2):
@@ -36,14 +36,11 @@ def visualize(image, bboxes, category_ids, category_id_to_name):
         img = visualize_bbox(img, bbox, class_name)
     plt.figure(figsize=(12, 12))
     plt.axis('on')
+    plt.imsave('od/img_results.png',img)
     plt.imshow(img)
     plt.show()
 
-image = cv2.imread("od/image.png")
-
-# cv2.imshow("TEST", image)
-# cv2.waitKey(0)
-
+image = cv2.imread("od/img_ori.png")
 image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
 """ KITTI Dataset Format
@@ -115,7 +112,9 @@ image_height = image_size[0]
 image_width = image_size[1]
 
 transform = A.Compose([
-    # TODO: add audmentation methods
+    A.HorizontalFlip(p=0.5),
+    A.RandomBrightnessContrast(p=0.2),
+    A.ShiftScaleRotate(p=0.5),
 ], bbox_params=A.BboxParams(format='coco', label_fields=['category_ids']))
 
 transformed = transform(image=image, bboxes=bboxes, category_ids=category_ids)
