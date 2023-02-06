@@ -25,6 +25,7 @@ flags = (
     )
 pattern_size = (BOARD_WIDTH, BOARD_HEIGHT)
 counter = 0
+number = 0
 
 image_points = list()
 
@@ -45,9 +46,11 @@ for image_path in image_path_list:
 
             counter = 0
             cv2.imshow(window_name, image_draw)
+            cv2.imwrite("results/" + str(number) + ".png", image_draw)
             cv2.waitKey(0)
 
         image_points.append(corners)
+    number += 1
 
 object_points = list()
 print(np.shape(image_points))
