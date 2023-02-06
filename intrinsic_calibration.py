@@ -22,7 +22,7 @@ flags = (
     cv2.CALIB_CB_ADAPTIVE_THRESH
     + cv2.CALIB_CB_NORMALIZE_IMAGE
     + cv2.CALIB_CB_FAST_CHECK
-)
+    )
 pattern_size = (BOARD_WIDTH, BOARD_HEIGHT)
 counter = 0
 
@@ -106,7 +106,7 @@ for image_path in image_path_list:
     image = cv2.imread(image_path, cv2.IMREAD_COLOR)
     image_undist = cv2.undistort(image, camera_matrix, dist_coeffs, None)
 end_time = time.process_time()
-print(end_time - start_time)
+print(f"time = {end_time - start_time}")
 
 start_time = time.process_time()
 mapx, mapy = cv2.initUndistortRectifyMap(camera_matrix, dist_coeffs, None, None, image_size, cv2.CV_32FC1)
@@ -114,7 +114,7 @@ for image_path in image_path_list:
     image = cv2.imread(image_path, cv2.IMREAD_COLOR)
     image_undist = cv2.remap(image, mapx, mapy, cv2.INTER_LINEAR)
 end_time = time.process_time()
-print(end_time - start_time)
+print(f"time = {end_time - start_time}")
 
 """
 0, 0, 0 -> index 0
