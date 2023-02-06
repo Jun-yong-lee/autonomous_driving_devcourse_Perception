@@ -42,20 +42,20 @@ original_height, original_width = image.shape[:2]
 # Augmentation
 aug = A.Compose([
     A.OneOf([
-        A.RandomSizedCrop(min_max_height=(50, 101), height=original_height, width=original_width, p=0.5),
+        A.RandomSizedCrop(min_max_height=(original_height/4, original_height/4), height=original_height, width=original_width, p=0.5),
         A.PadIfNeeded(min_height=original_height, min_width=original_width, p=0.5)
-    ], p=1),    
-    A.VerticalFlip(p=0.5),              
+    ], p=1),
+    A.VerticalFlip(p=0.5),
     A.RandomRotate90(p=0.5),
     A.OneOf([
         A.ElasticTransform(alpha=120, sigma=120 * 0.05, alpha_affine=120 * 0.03, p=0.5),
         A.GridDistortion(p=0.5),
-        A.OpticalDistortion(distort_limit=2, shift_limit=0.5, p=1)                  
+        A.OpticalDistortion(distort_limit=2, shift_limit=0.5, p=1)
         ], p=0.8),
     A.CLAHE(p=0.8),
-    A.RandomBrightnessContrast(p=0.8),    
+    A.RandomBrightnessContrast(p=0.8),
     A.RandomGamma(p=0.8)])
-    
+
 augmented = aug(image=image, mask=mask)
 image_heavy = augmented['image']
 mask_heavy = augmented['mask']
