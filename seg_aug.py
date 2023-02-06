@@ -6,7 +6,8 @@ import albumentations as A
 
 def visualize(image, mask, original_image=None, original_mask=None):
     fontsize = 18
-    
+    plt.imsave("seg/image_result.png", image)
+    plt.imsave("seg/mask_result.png", mask)
     if original_image is None and original_mask is None:
         f, ax = plt.subplots(2, 1, figsize=(8, 8))
 
