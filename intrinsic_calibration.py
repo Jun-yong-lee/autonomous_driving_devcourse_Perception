@@ -3,7 +3,7 @@ import glob
 import numpy as np
 import time
 
-DISPLAY_IMAGE = False
+DISPLAY_IMAGE = True
 
 # Get Image Path List
 image_path_list = glob.glob("images/*.jpg")
