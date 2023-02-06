@@ -6,7 +6,7 @@ from matplotlib import pyplot as plt
 
 import albumentations as A
 
-BOX_COLOR = (255, 0, 0) # Red
+BOX_COLOR = (0, 255, 0) # Green
 TEXT_COLOR = (255, 255, 255) # White
 
 def visualize_bbox(img, bbox, class_name, color=BOX_COLOR, thickness=2):
