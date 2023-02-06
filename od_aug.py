@@ -121,6 +121,7 @@ transformed = transform(image=image, bboxes=bboxes, category_ids=category_ids)
 transformed_image = transformed['image']
 transformed_bboxes = transformed['bboxes']
 
-print(transformed_bboxes)
+print(f"boxes = {transformed_bboxes}")
+print(f"id = {category_id_to_name}")
 
 visualize(transformed_image, transformed_bboxes, category_ids, category_id_to_name)
