@@ -112,16 +112,18 @@ image_height = image_size[0]
 image_width = image_size[1]
 
 transform = A.Compose([
+    # A.RandomCrop(height=300, width=500),
     A.HorizontalFlip(p=0.5),
     A.RandomBrightnessContrast(p=0.2),
     A.ShiftScaleRotate(p=0.5),
 ], bbox_params=A.BboxParams(format='coco', label_fields=['category_ids']))
 
+random.seed(2023)
 transformed = transform(image=image, bboxes=bboxes, category_ids=category_ids)
 transformed_image = transformed['image']
 transformed_bboxes = transformed['bboxes']
 
-print(f"boxes = {transformed_bboxes}")
-print(f"id = {category_id_to_name}")
-
 visualize(transformed_image, transformed_bboxes, category_ids, category_id_to_name)
+
+print(f"boxes = {transformed_bboxes}")
+print(f"id = {category_ids}")
