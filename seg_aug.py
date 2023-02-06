@@ -55,7 +55,7 @@ aug = A.Compose([
     A.CLAHE(p=0.8),
     A.RandomBrightnessContrast(p=0.8),
     A.RandomGamma(p=0.8)])
-
+    
 augmented = aug(image=image, mask=mask)
 image_heavy = augmented['image']
 mask_heavy = augmented['mask']
